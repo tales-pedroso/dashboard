@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from requests import get
+import pandas as pd
 
-url = ''
-
+def extract(url):
+    df = pd.read_csv(url, dtype = 'object')
+    return df
