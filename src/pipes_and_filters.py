@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from config import FROM_UG_CODE_TO_UG_ID, FROM_UTILITY_CODE_TO_UTILITY_ID
+
 class Filter:
     '''
     base class
@@ -41,12 +43,30 @@ class Replace(Filter):
         self.series = self.series.apply(lambda s: s.replace(self.from_, self.to))
     
 class NoDots(Replace):
-    def __init__(self, raw_series):
-        super().__init__(raw_series, '.', '')
+    def __init__(self, series):
+        super().__init__(series, '.', '')
         
 class FromCommaToDot(Replace):
-    def __init__(self, raw_series):
-        super().__init__(raw_series, ',', '.')
+    def __init__(self, series):
+        super().__init__(series, ',', '.')
+        
+#==============================================================================
+class Remap(Filter):
+    def __init__(self, series, col_name, mapping):
+        super().__init(series)
+        self.col_name = col_name
+        self.mapping = mapping
+        
+    def _process(self):
+        self.series.replace({self.col_name: self.mapping}, inplace = True)
+        
+class RemapUg(Remap):
+    def __init__(self, series):
+        super().__init__(series, 'ug_code', FROM_UG_CODE_TO_UG_ID)
+
+class RemapUtility(Remap):
+    def __init__(self, series):
+        super().__init__(series, 'ug_utility', FROM_UTILITY_CODE_TO_UTILITY_ID)
         
 #==============================================================================
 class Pipe:
@@ -72,9 +92,18 @@ class DecimalPipe(Pipe):
 class DatePipe(Pipe):
     def __init__(self):
         filters = (ToDate,)         # object -> datetime64
-        
         super().__init__(filters)
         
+class UgPipe(Pipe):
+    def __init__(self):
+        filters = (RemapUg,)        # '114601' -> '1'
+        super().__init__(filters)
+
+class UtilityPipe(Pipe):
+    def __init__(self):
+        filters = (RemapUtility,)   # '07047251000170' --> '1'
+        super().__init__(filters)
+    
 #==============================================================================
     
     
