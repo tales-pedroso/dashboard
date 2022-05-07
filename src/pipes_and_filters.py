@@ -62,11 +62,13 @@ class Remap(Filter):
         
 class RemapUg(Remap):
     def __init__(self, series):
-        super().__init__(series, 'ug_code', FROM_UG_CODE_TO_UG_ID)
+        super().__init__(series, 'ug_code', FROM_UG_CODE_TO_UG_ID) # change values
+        self.series.name = 'ug_id'
 
 class RemapUtility(Remap):
     def __init__(self, series):
-        super().__init__(series, 'ug_utility', FROM_UTILITY_CODE_TO_UTILITY_ID)
+        super().__init__(series, 'utility_code', FROM_UTILITY_CODE_TO_UTILITY_ID)
+        self.series.name = 'utility_id'
         
 #==============================================================================
 class Pipe:
