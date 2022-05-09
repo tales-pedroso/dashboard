@@ -8,7 +8,12 @@ from transform import transform
 from load import load
 from config import DB, USER, PASS, HOST, PORT
 
+from get_fact_data import get_fact_data
+
 # maybe ORM makes this better
+
+# design to incrementally load more data into the database and building 
+# an updated dashboard from it
 
 if __name__ == '__main__':
     # EXTRACT
@@ -32,4 +37,12 @@ if __name__ == '__main__':
     
     load(trans_df, DB, USER, PASS, HOST, PORT)
 
+    #==========================================================================
+    # GET THE WHOLE factpayment DATA
+    fact_df = get_fact_data(DB, USER, PASS, HOST, PORT)
+    
+    #==========================================================================
+    # BUILD DASHBOARD
+    
+    
     

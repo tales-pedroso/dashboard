@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-import psycopg2
 from sys import exc_info
-from contextlib import contextmanager
+from util import create_commit_close
+# from contextlib import contextmanager
 
-@contextmanager
-def create_commit_close(database, user, password, host, port):
-    conn = psycopg2.connect(database = database,
-                            user = user,
-                            password = password,
-                            host = host,
-                            port = port)
-    yield conn.cursor()
-    conn.commit()
-    conn.close()
+# @contextmanager
+# def create_commit_close(database, user, password, host, port):
+#     conn = psycopg2.connect(database = database,
+#                             user = user,
+#                             password = password,
+#                             host = host,
+#                             port = port)
+#     yield conn.cursor()
+#     conn.commit()
+#     conn.close()
 
 def get_sql_statement(named_tuple):
     ug_id = named_tuple.ug_id
