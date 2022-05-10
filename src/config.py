@@ -1,13 +1,28 @@
 # -*- coding: utf-8 -*-
+from configparser import ConfigParser
 
 # EXTRACT
 
 URL = 'https://raw.githubusercontent.com/tales-pedroso/dashboard/main/csv_file/data.csv'
 
-# LOAD
+# Database
+INI_FILE = 'database.ini'
+SECTION = 'postgresql'
+
+def get_db_params(ini_file = INI_FILE, section = SECTION):
+    '''
+    https://www.postgresqltutorial.com/postgresql-python/connect/
+    '''
+    parser = ConfigParser()
+    parser.read(ini_file)
+    
+    if parser.has_section(section):
+        params = parser.items(section) # list of tuples that need to be unpacked
+        
+        db_params = {param[0]:param[1] for param in params}
+        
+    else:
+        raise Exception(f'Section {section} not found in {ini_file}')
+    
+    return db_params
                                    
-HOST = 'database-1.cjurmptdwsrc.sa-east-1.rds.amazonaws.com'
-PORT = '5432'
-USER = 'postgres'
-PASS = ''
-DB   = 'dashboard'
