@@ -5,22 +5,17 @@ import psycopg2
 # this is repetitive
 
 @contextmanager
-def create_commit_close(database, user, password, host, port):
-    conn = psycopg2.connect(database = database,
-                            user = user,
-                            password = password,
-                            host = host,
-                            port = port)
+def create_commit_close(db_params):
+    conn = psycopg2.connect(**db_params)
+    
     yield conn.cursor()
+    
     conn.commit()
     conn.close()
 
 @contextmanager
-def create_close(database, user, password, host, port):
-    conn = psycopg2.connect(database = database,
-                            user = user,
-                            password = password,
-                            host = host,
-                            port = port)
+def create_close(db_params):
+    conn = psycopg2.connect(**db_params)
+    
     yield conn
     conn.close()

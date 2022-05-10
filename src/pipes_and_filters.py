@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import pandas as pd
+
 # this mapping is repeated in .sql initial statements. ideally, there would be
 # only one place in which to draw this relationship from. In case this ever changes,
 # both this dict and the INSERT INTO statements in .sql have to changed
@@ -103,8 +105,9 @@ class NewDtype(Filter):
         self.dtype = dtype
         
     def _process(self):
-        self.series = self.series.astype(self.dtype)
-        
+        # this call is changing month and day when it is a time column
+        self.series = self.series.astype(self.dtype) 
+
 class ToFloat(NewDtype):
     def __init__(self, series):
         super().__init__(series, 'float64')
@@ -112,6 +115,9 @@ class ToFloat(NewDtype):
 class ToDate(NewDtype):
     def __init__(self, series):
         super().__init__(series, 'datetime64')
+        
+    def _process(self):
+        self.series = pd.to_datetime(self.series, dayfirst = True)
     
 #==============================================================================
 class Replace(Filter):

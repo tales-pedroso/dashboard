@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
-from extract import extract
 from config import URL
+from config import get_db_params
+
+from extract import extract
+from transform import transform
+from load import load
+from get_dashboard_data import get_dashboard_data
 
 from pipes_and_filters import UgPipe, UtilityPipe, DatePipe, DecimalPipe
-from transform import transform
-
-from load import load
-from config import DB, USER, PASS, HOST, PORT
-
-from get_fact_data import get_fact_data
 
 # maybe ORM makes this better
 
@@ -17,7 +16,7 @@ from get_fact_data import get_fact_data
 
 if __name__ == '__main__':
     # EXTRACT
-    # correct data in csv_file. There are multiple dh_id for the same ug_code
+    # !!! correct data in csv_file. There are multiple dh_id for the same ug_code
     
     # it does not save the csv file locally
     
@@ -34,12 +33,15 @@ if __name__ == '__main__':
     
     #==========================================================================
     # LOAD
+    db_params = get_db_params()
     
-    load(trans_df, DB, USER, PASS, HOST, PORT)
+    
+    #load(trans_df, DB, USER, PASS, HOST, PORT)
+    load(trans_df, db_params)
 
     #==========================================================================
-    # GET THE WHOLE factpayment DATA
-    fact_df = get_fact_data(DB, USER, PASS, HOST, PORT)
+    # GET THE AGGREGATED DATA FOR THE DASHBOARD
+    dashboard_df = get_dashboard_data(db_params)
     
     #==========================================================================
     # BUILD DASHBOARD
