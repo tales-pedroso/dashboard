@@ -3,7 +3,7 @@ from configparser import ConfigParser
 
 # EXTRACT
 
-URL = 'https://raw.githubusercontent.com/tales-pedroso/dashboard/main/csv_file/data.csv'
+URL = 'https://raw.githubusercontent.com/tales-pedroso/dashboard/main/data_files/business_data.csv'
 
 # Database
 INI_FILE = 'database.ini'

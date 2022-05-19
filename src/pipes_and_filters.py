@@ -6,6 +6,12 @@ import pandas as pd
 # both this dict and the INSERT INTO statements in .sql have to changed
 # the initial set up should be done from a script too, instead of having .sql
 # files
+
+# this relationship is not explicit on .sql just yet.
+# the initial script should create the tables if they don't exist 
+# I should have an initial script to create stuff, but execute it 
+# from Python
+
 FROM_UG_CODE_TO_UG_ID = {'114601' : '1',
                          '114602' : '2',
                          '114603' : '3',

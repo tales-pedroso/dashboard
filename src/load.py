@@ -16,7 +16,7 @@ def get_sql_statement(named_tuple):
     
 def load_one_row(cursor, sql):
     try:
-        cursor.execute(sql)
+        cursor.execute(sql) # creates transaction implictly
         print('One row successfully loaded')
     except:
         print(exc_info()) # prints will become logs later on

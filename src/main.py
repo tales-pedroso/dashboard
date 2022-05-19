@@ -2,7 +2,7 @@
 from config import URL
 from config import get_db_params
 
-from extract import extract
+from extract import extract_business_data
 from transform import transform
 from load import load
 from get_dashboard_data import get_dashboard_data
@@ -21,7 +21,7 @@ if __name__ == '__main__':
     # it does not save the csv file locally
     
     # wrap into try-except
-    df = extract(URL) 
+    df = extract_business_data(URL) 
     
     #==========================================================================
     # TRANSFORM
@@ -35,16 +35,17 @@ if __name__ == '__main__':
     # LOAD
     db_params = get_db_params()
     
-    
-    #load(trans_df, DB, USER, PASS, HOST, PORT)
     load(trans_df, db_params)
 
     #==========================================================================
     # GET THE AGGREGATED DATA FOR THE DASHBOARD
-    dashboard_df = get_dashboard_data(db_params)
+    dashboard_df = get_dashboard_data(db_params) 
+    # maybe the df should be gotten on demand, instead of getting it a priori
+    
+    # also needs to include the Null values in the result set. a left-join should do it
     
     #==========================================================================
     # BUILD DASHBOARD
-    
+    # put geojson on GitHub too
     
     
