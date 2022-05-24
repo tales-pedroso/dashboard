@@ -3,7 +3,8 @@ from configparser import ConfigParser
 
 # EXTRACT
 
-URL = 'https://raw.githubusercontent.com/tales-pedroso/dashboard/main/data_files/business_data.csv'
+BUS_DATA_URL = 'https://raw.githubusercontent.com/tales-pedroso/dashboard/main/data_files/business_data.csv'
+GEOJSON_URL = 'https://raw.githubusercontent.com/tales-pedroso/dashboard/main/data_files/brazilian_states.json'
 
 # Database
 INI_FILE = 'database.ini'

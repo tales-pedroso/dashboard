@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
-from config import URL
+from config import BUS_DATA_URL, GEOJSON_URL
 from config import get_db_params
 
-from extract import extract_business_data
+from extract import extract_business_data, extract_geojson
 from transform import transform
 from load import load
 from get_dashboard_data import get_dashboard_data
+
+from get_app import get_app
 
 from pipes_and_filters import UgPipe, UtilityPipe, DatePipe, DecimalPipe
 
@@ -16,12 +18,11 @@ from pipes_and_filters import UgPipe, UtilityPipe, DatePipe, DecimalPipe
 
 if __name__ == '__main__':
     # EXTRACT
-    # !!! correct data in csv_file. There are multiple dh_id for the same ug_code
     
     # it does not save the csv file locally
     
     # wrap into try-except
-    df = extract_business_data(URL) 
+    df = extract_business_data(BUS_DATA_URL) 
     
     #==========================================================================
     # TRANSFORM
@@ -40,12 +41,15 @@ if __name__ == '__main__':
     #==========================================================================
     # GET THE AGGREGATED DATA FOR THE DASHBOARD
     dashboard_df = get_dashboard_data(db_params) 
-    # maybe the df should be gotten on demand, instead of getting it a priori
-    
-    # also needs to include the Null values in the result set. a left-join should do it
     
     #==========================================================================
     # BUILD DASHBOARD
-    # put geojson on GitHub too
+    geojson = extract_geojson(GEOJSON_URL)
+    
+    app = get_app(dashboard_df, geojson)
+    app.run_server(debug = True, use_reloader = False)
+    
+    
+
     
     
